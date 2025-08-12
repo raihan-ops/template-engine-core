@@ -1,0 +1,22 @@
+{
+  "templates": {
+    "template1": {
+      "name": "Modern & Clean",
+      "description": "A clean, modern design with minimal aesthetics",
+      "pages": ["home", "product", "about"]
+    },
+    "template2": {
+      "name": "Bold & Professional", 
+      "description": "Professional design with bold typography and layouts",
+      "pages": ["home", "product", "about"]
+    },
+    "template3": {
+      "name": "Creative & Animated",
+      "description": "Creative design with engaging animations and interactions",
+      "pages": ["home", "product", "about"]
+    }
+  },
+  "defaultPages": ["home", "product", "about"],
+  "templateDirectory": "../templates",
+  "projectSuffix": "-project"
+}

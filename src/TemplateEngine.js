@@ -1,29 +1,37 @@
 const fs = require('fs-extra');
 const path = require('path');
-
-const TEMPLATES = ['template1', 'template2', 'template3'];
-const TEMPLATE_DIR = path.join(__dirname, '../templates');
-
-// Token replacement mappings
-const TOKEN_MAPPINGS = {
-  'PRIMARY_COLOR_TOKEN': (config) => config.designToken.primaryColor,
-  'SECONDARY_COLOR_TOKEN': (config) => config.designToken.secondaryColor,
-  'FONT_TOKEN': (config) => config.designToken.font,
-  'FONT_TOKEN_VAR': (config) => config.designToken.font,
-  'SITENAME_TOKEN': (config) => config.sitename,
-  'ICON_TOKEN': (config) => config.icon
-};
+const ConfigManager = require('./config/ConfigManager');
 
 class TemplateEngine {
   constructor(customTemplateDir = null) {
-    this.templates = TEMPLATES;
-    this.templateDir = customTemplateDir || TEMPLATE_DIR;
+    this.configManager = new ConfigManager();
+    this.customTemplateDir = customTemplateDir;
+    this.templates = null;
+    this.templateDir = null;
+    this.tokenMappings = null;
+    this.textFileExtensions = null;
+  }
+
+  /**
+   * Initialize the template engine
+   */
+  async initialize() {
+    this.templates = await this.configManager.getAvailableTemplates();
+    this.templateDir = this.customTemplateDir || await this.configManager.getTemplateDirectory();
+    this.tokenMappings = await this.configManager.getTokenMappings();
+    this.textFileExtensions = await this.configManager.getProcessableExtensions();
   }
 
   async generateProject(config, outputPath) {
+    // Initialize if not already done
+    if (!this.templates) {
+      await this.initialize();
+    }
+
     // Validate configuration
-    if (!this.validateConfig(config)) {
-      throw new Error('Invalid configuration');
+    const validation = await this.configManager.validateUserConfig(config);
+    if (!validation.isValid) {
+      throw new Error(`Invalid configuration: ${validation.errors.join(', ')}`);
     }
 
     // Clean output directory
@@ -56,6 +64,7 @@ class TemplateEngine {
   }
 
   async applyMixedTemplates(config, outputPath, baseTemplate) {
+    const availablePages = await this.configManager.getAvailablePages();
     const pageTemplateMap = {
       'home': config.templates.homepage,
       'product': config.templates.productPage,
@@ -75,9 +84,7 @@ class TemplateEngine {
   }
 
   async applyTokenReplacements(projectPath, config) {
-    const textFileExtensions = ['.tsx', '.ts', '.js', '.jsx', '.css', '.json', '.md', '.html'];
-
-    async function processFile(filePath) {
+    async function processFile(filePath, tokenMappings, textFileExtensions) {
       const ext = path.extname(filePath);
       if (!textFileExtensions.includes(ext)) {
         return;
@@ -87,7 +94,7 @@ class TemplateEngine {
       let modified = false;
 
       // Apply all token replacements
-      for (const [token, getValue] of Object.entries(TOKEN_MAPPINGS)) {
+      for (const [token, getValue] of Object.entries(tokenMappings)) {
         const value = getValue(config);
         if (content.includes(token)) {
           content = content.replace(new RegExp(token, 'g'), value);
@@ -100,7 +107,7 @@ class TemplateEngine {
       }
     }
 
-    async function processDirectory(dirPath) {
+    async function processDirectory(dirPath, tokenMappings, textFileExtensions) {
       const items = await fs.readdir(dirPath);
       
       for (const item of items) {
@@ -109,68 +116,39 @@ class TemplateEngine {
         
         if (stat.isDirectory()) {
           if (!['node_modules', '.next', '.git', 'dist', 'build'].includes(item)) {
-            await processDirectory(fullPath);
+            await processDirectory(fullPath, tokenMappings, textFileExtensions);
           }
         } else {
-          await processFile(fullPath);
+          await processFile(fullPath, tokenMappings, textFileExtensions);
         }
       }
     }
 
-    await processDirectory(projectPath);
+    await processDirectory(projectPath, this.tokenMappings, this.textFileExtensions);
   }
 
-  validateConfig(config) {
-    // Required fields
-    const required = ['sitename', 'icon', 'designToken', 'templateMode'];
-    for (const field of required) {
-      if (!config[field]) {
-        return false;
-      }
-    }
-
-    // Design token validation
-    const designTokenRequired = ['primaryColor', 'secondaryColor', 'font'];
-    for (const field of designTokenRequired) {
-      if (!config.designToken[field]) {
-        return false;
-      }
-    }
-
-    // Color validation
-    const hexColorRegex = /^#[0-9A-F]{6}$/i;
-    if (!hexColorRegex.test(config.designToken.primaryColor) || 
-        !hexColorRegex.test(config.designToken.secondaryColor)) {
-      return false;
-    }
-
-    // Template mode validation
-    if (!['single', 'mixed'].includes(config.templateMode)) {
-      return false;
-    }
-
-    if (config.templateMode === 'single') {
-      if (!config.singleTemplate || !this.templates.includes(config.singleTemplate)) {
-        return false;
-      }
-    } else if (config.templateMode === 'mixed') {
-      if (!config.templates) {
-        return false;
-      }
-      
-      const requiredTemplatePages = ['homepage', 'productPage', 'others'];
-      for (const page of requiredTemplatePages) {
-        if (!config.templates[page] || !this.templates.includes(config.templates[page])) {
-          return false;
-        }
-      }
-    }
-
-    return true;
+  async validateConfig(config) {
+    const validation = await this.configManager.validateUserConfig(config);
+    return validation.isValid;
   }
 
-  getAvailableTemplates() {
+  async getAvailableTemplates() {
+    if (!this.templates) {
+      await this.initialize();
+    }
     return this.templates;
+  }
+
+  async getTemplatesInfo() {
+    return await this.configManager.getAllTemplatesInfo();
+  }
+
+  async getTokensInfo() {
+    return await this.configManager.getTokensInfo();
+  }
+
+  async discoverTemplates() {
+    return await this.configManager.discoverTemplates();
   }
 }
 
