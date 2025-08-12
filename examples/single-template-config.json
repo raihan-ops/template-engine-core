@@ -1,0 +1,11 @@
+{
+  "sitename": "TechFlow Pro",
+  "icon": "/favicon.ico",
+  "designToken": {
+    "primaryColor": "#3B82F6",
+    "secondaryColor": "#10B981",
+    "font": "Inter"
+  },
+  "templateMode": "single",
+  "singleTemplate": "template1"
+}

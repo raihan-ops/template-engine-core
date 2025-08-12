@@ -1,0 +1,15 @@
+{
+  "sitename": "Creative Studios",
+  "icon": "https://example.com/icon.png",
+  "designToken": {
+    "primaryColor": "#8B5CF6",
+    "secondaryColor": "#F59E0B",
+    "font": "Poppins"
+  },
+  "templateMode": "mixed",
+  "templates": {
+    "homepage": "template3",
+    "productPage": "template2",
+    "others": "template1"
+  }
+}

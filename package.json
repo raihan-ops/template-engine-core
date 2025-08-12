@@ -1,0 +1,57 @@
+{
+  "name": "@yourname/template-engine-core",
+  "version": "1.0.0",
+  "description": "A CLI tool for generating Next.js projects from templates with design tokens",
+  "main": "src/index.js",
+  "bin": {
+    "template-engine": "./bin/cli.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "cli": "node bin/cli.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "chmod +x bin/cli.js"
+  },
+  "keywords": [
+    "nextjs",
+    "template", 
+    "generator",
+    "cli",
+    "tailwind",
+    "react",
+    "typescript",
+    "design-tokens",
+    "website-generator"
+  ],
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/template-engine-core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/template-engine-core/issues"
+  },
+  "homepage": "https://github.com/yourusername/template-engine-core#readme",
+  "dependencies": {
+    "commander": "^11.0.0",
+    "fs-extra": "^11.1.1", 
+    "archiver": "^6.0.1",
+    "inquirer": "^9.2.0",
+    "chalk": "^4.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "templates/",
+    "examples/",
+    "README.md",
+    "QUICKSTART.md"
+  ]
+}
