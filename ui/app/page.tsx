@@ -358,7 +358,7 @@ export default function Home() {
                 <div className="space-y-2">
                   <h4 className="font-medium text-gray-900">Pages Structure:</h4>
                   <div className="text-sm text-gray-600 space-y-1">
-                    <div>📄 /home - Homepage</div>
+                    <div>📄 / - Homepage</div>
                     <div>📄 /product - Product showcase</div>
                     <div>📄 /about - About page</div>
                   </div>
