@@ -5,10 +5,10 @@ const path = require('path');
  * Configuration Manager - Handles dynamic loading of templates and tokens
  */
 class ConfigManager {
-  constructor() {
+  constructor(customConfigDir = null) {
     this.templatesConfig = null;
     this.tokensConfig = null;
-    this.configDir = path.join(__dirname, '../config');
+    this.configDir = customConfigDir || path.join(__dirname, '../config');
   }
 
   /**

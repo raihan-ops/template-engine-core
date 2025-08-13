@@ -3,8 +3,8 @@ const path = require('path');
 const ConfigManager = require('./config/ConfigManager');
 
 class TemplateEngine {
-  constructor(customTemplateDir = null) {
-    this.configManager = new ConfigManager();
+  constructor(customTemplateDir = null, customConfigDir = null) {
+    this.configManager = new ConfigManager(customConfigDir);
     this.customTemplateDir = customTemplateDir;
     this.templates = null;
     this.templateDir = null;

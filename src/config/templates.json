@@ -1,19 +1,40 @@
 {
   "templates": {
     "template1": {
-      "name": "Modern & Clean",
-      "description": "A clean, modern design with minimal aesthetics",
-      "pages": ["home", "product", "about"]
+      "name": "Modern Corporate",
+      "description": "Professional and clean design perfect for corporate websites and business applications",
+      "pages": ["home", "product", "about"],
+      "theme": "corporate",
+      "colors": {
+        "primary": "#1E40AF",
+        "secondary": "#374151",
+        "accent": "#059669"
+      },
+      "features": ["nextjs-14", "tailwind", "i18n", "dark-mode", "responsive"]
     },
     "template2": {
-      "name": "Bold & Professional", 
-      "description": "Professional design with bold typography and layouts",
-      "pages": ["home", "product", "about"]
+      "name": "Creative Agency",
+      "description": "Bold and artistic design ideal for creative agencies, studios, and portfolio websites",
+      "pages": ["home", "product", "about"],
+      "theme": "creative",
+      "colors": {
+        "primary": "#8B5CF6",
+        "secondary": "#F59E0B",
+        "accent": "#EF4444"
+      },
+      "features": ["nextjs-14", "tailwind", "i18n", "dark-mode", "animations", "pwa"]
     },
     "template3": {
-      "name": "Creative & Animated",
-      "description": "Creative design with engaging animations and interactions",
-      "pages": ["home", "product", "about"]
+      "name": "Tech Startup",
+      "description": "Modern and innovative design perfect for tech startups, SaaS companies, and product launches",
+      "pages": ["home", "product", "about"],
+      "theme": "tech-startup",
+      "colors": {
+        "primary": "#0EA5E9",
+        "secondary": "#10B981",
+        "accent": "#8B5CF6"
+      },
+      "features": ["nextjs-14", "tailwind", "i18n", "dark-mode", "analytics", "pwa"]
     }
   },
   "defaultPages": ["home", "product", "about"],

@@ -4,7 +4,8 @@
   "designToken": {
     "primaryColor": "#3B82F6",
     "secondaryColor": "#10B981",
-    "font": "Inter"
+    "font": "Inter",
+    "borderRadius": "8px"
   },
   "templateMode": "single",
   "singleTemplate": "template1"

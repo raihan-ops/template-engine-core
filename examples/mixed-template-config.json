@@ -4,7 +4,8 @@
   "designToken": {
     "primaryColor": "#8B5CF6",
     "secondaryColor": "#F59E0B",
-    "font": "Poppins"
+    "font": "Poppins",
+    "borderRadius": "12px"
   },
   "templateMode": "mixed",
   "templates": {

@@ -1,0 +1,12 @@
+{
+  "app_name": "Plantilla Next.js",
+  "welcome": "¡Bienvenido a la plantilla Next.js!",
+  "image_alt": "Imagen de muestra",
+  "card_title": "Título de la tarjeta",
+  "accept_terms": "Aceptar términos y condiciones",
+  "option_1": "Opción 1",
+  "option_2": "Opción 2",
+  "submit": "Enviar",
+  "lang_en": "Inglés",
+  "lang_es": "Español"
+} 

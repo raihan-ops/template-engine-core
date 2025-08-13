@@ -1,0 +1,12 @@
+{
+  "app_name": "Next.js Boilerplate",
+  "welcome": "Welcome to the Next.js Boilerplate!",
+  "image_alt": "Sample image",
+  "card_title": "Card Title",
+  "accept_terms": "Accept Terms and Conditions",
+  "option_1": "Option 1",
+  "option_2": "Option 2",
+  "submit": "Submit",
+  "lang_en": "English",
+  "lang_es": "Spanish"
+} 

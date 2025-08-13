@@ -1,0 +1,17 @@
+{
+  "sitename": "Tech Innovators Corp",
+  "icon": "https://example.com/tech-icon.png",
+  "designToken": {
+    "primaryColor": "#0EA5E9",
+    "secondaryColor": "#10B981",
+    "font": "Space Grotesk",
+    "borderRadius": "12px"
+  },
+  "templateMode": "mixed",
+  "templates": {
+    "homepage": "template3",
+    "productPage": "template1",
+    "others": "template2"
+  },
+  "description": "Example showing mixed templates using the new Next.js-based themes"
+}
