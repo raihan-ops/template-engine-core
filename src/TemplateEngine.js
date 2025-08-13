@@ -52,6 +52,9 @@ class TemplateEngine {
     const baseTemplatePath = path.join(this.templateDir, `${baseTemplate}-project`);
     await fs.copy(baseTemplatePath, outputPath);
 
+    // Handle homepage placement - always move homepage content to root
+    await this.setupHomepage(config, outputPath, baseTemplate);
+
     // Handle mixed mode - overlay specific page files
     if (config.templateMode === 'mixed') {
       await this.applyMixedTemplates(config, outputPath, baseTemplate);
@@ -66,20 +69,53 @@ class TemplateEngine {
   async applyMixedTemplates(config, outputPath, baseTemplate) {
     const availablePages = await this.configManager.getAvailablePages();
     const pageTemplateMap = {
-      'home': config.templates.homepage,
+      '/': config.templates.homepage,
       'product': config.templates.productPage,
       'about': config.templates.others
     };
 
     for (const [pageName, templateName] of Object.entries(pageTemplateMap)) {
+      // Skip homepage as it's handled by setupHomepage method
+      if (pageName === '/') {
+        continue;
+      }
+
       if (templateName !== baseTemplate) {
-        const sourcePagePath = path.join(this.templateDir, `${templateName}-project/app/(pages)/${pageName}/page.tsx`);
-        const targetPagePath = path.join(outputPath, `app/(pages)/${pageName}/page.tsx`);
+        // Try .js first, then .tsx as fallback
+        let sourcePagePath = path.join(this.templateDir, `${templateName}-project/app/(pages)/${pageName}/page.js`);
+        if (!await fs.pathExists(sourcePagePath)) {
+          sourcePagePath = path.join(this.templateDir, `${templateName}-project/app/(pages)/${pageName}/page.tsx`);
+        }
+
+        const targetPagePath = path.join(outputPath, `app/(pages)/${pageName}/page.js`);
         
         if (await fs.pathExists(sourcePagePath)) {
           await fs.copy(sourcePagePath, targetPagePath);
         }
       }
+    }
+  }
+
+  async setupHomepage(config, outputPath, baseTemplate) {
+    // In mixed mode, we might need to replace the homepage with a different template's homepage
+    if (config.templateMode === 'mixed') {
+      const homepageTemplate = config.templates.homepage;
+      
+      // If the homepage template is different from the base template, copy it
+      if (homepageTemplate !== baseTemplate) {
+        const homePageSourcePath = path.join(this.templateDir, `${homepageTemplate}-project/src/app/page.js`);
+        const targetPagePath = path.join(outputPath, 'src/app/page.js');
+        
+        if (await fs.pathExists(homePageSourcePath)) {
+          await fs.copy(homePageSourcePath, targetPagePath);
+        }
+      }
+    }
+    
+    // Ensure no /home directory exists (cleanup from old structure)
+    const homePageDirPath = path.join(outputPath, 'src/app/(pages)/home');
+    if (await fs.pathExists(homePageDirPath)) {
+      await fs.remove(homePageDirPath);
     }
   }
 

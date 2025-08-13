@@ -3,7 +3,7 @@
     "template1": {
       "name": "Modern Corporate",
       "description": "Professional and clean design perfect for corporate websites and business applications",
-      "pages": ["home", "product", "about"],
+      "pages": ["/", "product", "about"],
       "theme": "corporate",
       "colors": {
         "primary": "#1E40AF",
@@ -15,7 +15,7 @@
     "template2": {
       "name": "Creative Agency",
       "description": "Bold and artistic design ideal for creative agencies, studios, and portfolio websites",
-      "pages": ["home", "product", "about"],
+      "pages": ["/", "product", "about"],
       "theme": "creative",
       "colors": {
         "primary": "#8B5CF6",
@@ -27,7 +27,7 @@
     "template3": {
       "name": "Tech Startup",
       "description": "Modern and innovative design perfect for tech startups, SaaS companies, and product launches",
-      "pages": ["home", "product", "about"],
+      "pages": ["/", "product", "about"],
       "theme": "tech-startup",
       "colors": {
         "primary": "#0EA5E9",
@@ -37,7 +37,7 @@
       "features": ["nextjs-14", "tailwind", "i18n", "dark-mode", "analytics", "pwa"]
     }
   },
-  "defaultPages": ["home", "product", "about"],
+  "defaultPages": ["/", "product", "about"],
   "templateDirectory": "../templates",
   "projectSuffix": "-project"
 }
