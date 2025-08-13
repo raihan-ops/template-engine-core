@@ -8,6 +8,7 @@ const TemplateEngine = require('../../../../src/TemplateEngine')
 
 // Fix template directory path for UI context
 const templateDir = path.join(process.cwd(), '..', 'templates')
+const configDir = path.join(process.cwd(), '..', 'src', 'config')
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,12 +16,17 @@ export async function POST(request: NextRequest) {
     
     // Debug logging
     console.log('Template directory:', templateDir)
+    console.log('Config directory:', configDir)
     console.log('Process cwd:', process.cwd())
     console.log('Template dir exists:', await fs.pathExists(templateDir))
+    console.log('Config dir exists:', await fs.pathExists(configDir))
     
     // Validate the configuration
-    const engine = new TemplateEngine(templateDir)
-    if (!engine.validateConfig(config)) {
+    const engine = new TemplateEngine(templateDir, configDir)
+    await engine.initialize()
+    
+    const isValid = await engine.validateConfig(config)
+    if (!isValid) {
       return NextResponse.json(
         { error: 'Invalid configuration' },
         { status: 400 }
